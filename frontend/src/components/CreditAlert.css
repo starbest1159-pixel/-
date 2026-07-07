@@ -1,0 +1,87 @@
+.credit-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.alert-icon {
+  font-size: 18px;
+}
+
+.alert-message {
+  flex: 1;
+}
+
+.alert-danger {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+.alert-warning {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  color: #856404;
+}
+
+.alert-info {
+  background: #d1ecf1;
+  border: 1px solid #bee5eb;
+  color: #0c5460;
+}
+
+.btn-adjust,
+.btn-close {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s;
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+.btn-adjust {
+  background: #28a745;
+  color: white;
+}
+
+.btn-adjust:hover {
+  background: #218838;
+}
+
+.btn-close {
+  background: transparent;
+  color: inherit;
+  font-size: 16px;
+  padding: 0 5px;
+}
+
+.btn-close:hover {
+  opacity: 0.7;
+}
