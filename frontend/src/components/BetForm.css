@@ -1,0 +1,277 @@
+.bet-form {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.bet-form h2 {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+}
+
+.mode-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 10px 15px;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.mode-btn.active {
+  border-color: #007bff;
+  background: #007bff;
+  color: white;
+}
+
+.mode-btn:hover {
+  border-color: #007bff;
+}
+
+/* Quick Key Mode */
+.quick-key-mode .input-area {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: monospace;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
+.hint {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
+/* Manual Mode */
+.manual-mode {
+  margin-bottom: 20px;
+}
+
+.no-bets {
+  color: #999;
+  text-align: center;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 5px;
+}
+
+.bets-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.bet-row {
+  display: grid;
+  grid-template-columns: 100px 100px 100px 100px 120px 50px;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.bet-row:last-child {
+  border-bottom: none;
+}
+
+.bet-type-select,
+.input-number,
+.input-amount,
+.input-quantity {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.input-number {
+  text-align: center;
+}
+
+.input-amount,
+.input-quantity {
+  text-align: right;
+}
+
+.total-amount {
+  text-align: right;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.btn-remove {
+  padding: 5px 10px;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-remove:hover {
+  background: #ee5a52;
+}
+
+.btn-add-bet {
+  padding: 10px 20px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  width: 100%;
+}
+
+.btn-add-bet:hover {
+  background: #218838;
+}
+
+/* Bet Summary */
+.bet-summary {
+  background: #f8f9fa;
+  border-left: 4px solid #007bff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.summary-item span {
+  color: #666;
+  font-weight: 500;
+}
+
+.summary-item strong {
+  color: #333;
+}
+
+.summary-item strong.error {
+  color: #dc3545;
+}
+
+/* Warnings & Errors */
+.warnings {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.warnings h4 {
+  margin: 0 0 10px 0;
+  color: #856404;
+}
+
+.errors {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.error-item {
+  color: #721c24;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.error-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.btn-primary:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #545b62;
+}
+
+.btn-secondary:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Blocked State */
+.bet-form-blocked {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+}
+
+.bet-form-blocked h2 {
+  color: #856404;
+  margin: 0 0 10px 0;
+  border: none;
+}
+
+.bet-form-blocked p {
+  color: #856404;
+  margin: 0;
+  font-size: 16px;
+}
