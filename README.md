@@ -71,7 +71,7 @@ th77-prime/
 | Layer | Technology |
 |-------|------------|
 | **Frontend** | React (TypeScript), Next.js, Tailwind CSS |
-| **Backend** | Node.js, Express, NestJS |
+| **Backend** | Node.js, Express |
 | **Database** | PostgreSQL (primary), Redis (cache) |
 | **Message Queue** | RabbitMQ / Kafka |
 | **Storage** | MinIO (object storage) |

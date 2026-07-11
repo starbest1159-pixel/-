@@ -4,6 +4,15 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import { sequelize } from './config/database';
+import authRoutes from './routes/authRoutes';
+import userRoutes from './routes/userRoutes';
+import dashboardRoutes from './routes/dashboardRoutes';
+import lotteryRoutes from './routes/lotteryRoutes';
+import bettingRoutes from './routes/bettingRoutes';
+import linkRoutes from './routes/linkRoutes';
+import transactionRoutes from './routes/transactionRoutes';
+import alertRoutes from './routes/alertRoutes';
+import { authMiddleware } from './middleware/auth';
 
 // Load environment variables
 dotenv.config();
@@ -57,6 +66,22 @@ app.get('/api/v1/status', (req: Request, res: Response) => {
     }
   });
 });
+
+// ============================================
+// API Routes (v1)
+// ============================================
+
+// Auth routes (no auth middleware required)
+app.use('/api/v1/auth', authRoutes);
+
+// Protected routes (auth middleware required)
+app.use('/api/v1/users', authMiddleware, userRoutes);
+app.use('/api/v1/dashboard', authMiddleware, dashboardRoutes);
+app.use('/api/v1', authMiddleware, lotteryRoutes);
+app.use('/api/v1', authMiddleware, bettingRoutes);
+app.use('/api/v1', authMiddleware, linkRoutes);
+app.use('/api/v1', authMiddleware, transactionRoutes);
+app.use('/api/v1', authMiddleware, alertRoutes);
 
 // ============================================
 // Error Handling
