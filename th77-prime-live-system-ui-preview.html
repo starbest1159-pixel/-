@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TH77 Prime - Live System Preview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== Global Styles ===== */
+        :root {
+            --primary: #1e3a8a;
+            --primary-dark: #1e293b;
+            --primary-light: #3b82f6;
+            --secondary: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 0.5rem;
+            --transition: all 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* ===== Layout ===== */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== Sidebar ===== */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            padding: 0.5rem;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .sidebar-header .subtitle {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+        }
+
+        .menu-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .menu-section-title {
+            padding: 0 1.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            transition: var(--transition);
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .menu-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border-left-color: var(--primary-light);
+        }
+
+        .menu-item i {
+            width: 20px;
+            margin-right: 0.75rem;
+        }
+
+        .menu-item span {
+            font-size: 0.9rem;
+        }
+
+        .menu-item .badge {
+            margin-left: auto;
+            background: var(--danger);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.7rem;
+        }
+
+        .menu-item .badge.warning {
+            background: var(--warning);
+        }
+
+        .menu-item .badge.success {
+            background: var(--success);
+        }
+
+        /* ===== Main Content ===== */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        /* ===== Header ===== */
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-left .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        .header-left .search-box {
+            position: relative;
+        }
+
+        .header-left .search-box input {
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            width: 300px;
+            transition: var(--transition);
+        }
+
+        .header-left .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+
+        .header-left .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-right .notification {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .header-right .notification i {
+            font-size: 1.25rem;
+            color: var(--gray);
+        }
+
+        .header-right .notification .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            padding: 0.2rem 0.4rem;
+            border-radius: 50%;
+            font-size: 0.7rem;
+        }
+
+        .header-right .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .header-right .user-menu .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .header-right .user-menu .user-info {
+            text-align: right;
+        }
+
+        .header-right .user-menu .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .header-right .user-menu .user-role {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        /* ===== Dashboard ===== */
+        .dashboard {
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-header p {
+            color: var(--gray);
+        }
+
+        /* ===== Stats Cards ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card-header .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .stat-card-header .icon.primary {
+            background: rgba(30, 58, 138, 0.1);
+            color: var(--primary);
+        }
+
+        .stat-card-header .icon.secondary {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+
+        .stat-card-header .icon.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-card-header .icon.danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-card-label {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .stat-card-progress {
+            margin-top: 1rem;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .stat-card-progress .bar {
+            height: 100%;
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .stat-card-progress .bar.primary {
+            background: var(--primary);
+            width: 75%;
+        }
+
+        .stat-card-progress .bar.danger {
+            background: var(--danger);
+            width: 100%;
+        }
+
+        /* ===== Alert Cards ===== */
+        .alert-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--warning);
+        }
+
+        .alert-card.warning {
+            border-left-color: var(--warning);
+        }
+
+        .alert-card.danger {
+            border-left-color: var(--danger);
+        }
+
+        .alert-card i {
+            font-size: 1.5rem;
+        }
+
+        .alert-card .content {
+            flex: 1;
+        }
+
+        .alert-card .content h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .alert-card .content p {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .alert-card .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .alert-card .btn {
+            padding: 0.25rem 0.75rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .alert-card .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .alert-card .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .alert-card .btn-outline {
+            background: transparent;
+            color: var(--gray);
+            border: 1px solid var(--border);
+        }
+
+        .alert-card .btn-outline:hover {
+            background: var(--light);
+        }
+
+        /* ===== Section Headers ===== */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .section-header .btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .section-header .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .section-header .btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* ===== Tables ===== */
+        .table-container {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .table-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .table-controls input {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+        }
+
+        .table-controls select {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--light);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray);
+        }
+
+        tr:hover {
+            background: var(--light);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-badge.confirmed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+
+        .status-badge.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-badge.cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .status-badge.blocked {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        /* ===== Forms ===== */
+        .form-container {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        /* ===== Modal ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .modal {
+            background: white;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        /* ===== Quick Key Input ===== */
+        .quick-key-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        .quick-key-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+
+        .quick-key-hint {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 0.5rem;
+        }
+
+        /* ===== Bet List ===== */
+        .bet-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .bet-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .bet-item .number {
+            width: 60px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .bet-item .type {
+            width: 80px;
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        .bet-item .amount {
+            flex: 1;
+            text-align: right;
+        }
+
+        .bet-item .actions {
+            margin-left: 1rem;
+        }
+
+        .bet-item .actions button {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+
+        .bet-item .actions button:hover {
+            color: var(--danger);
+        }
+
+        /* ===== Credit Display ===== */
+        .credit-display {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .credit-display .label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .credit-display .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .credit-display .limit {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        .credit-display .progress {
+            margin-top: 1rem;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .credit-display .progress .bar {
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+            width: 75%;
+        }
+
+        /* ===== Chart Placeholder ===== */
+        .chart-placeholder {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            color: var(--gray);
+            box-shadow: var(--shadow);
+        }
+
+        .chart-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: var(--transition);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header-left .menu-toggle {
+                display: block;
+            }
+
+            .header-left .search-box input {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 1rem;
+            }
+
+            .header-left .search-box {
+                display: none;
+            }
+
+            .header-right .user-menu .user-info {
+                display: none;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== Animations ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        /* ===== Scrollbar ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray);
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== Login Page ===== -->
+    <div id="login-page" class="app-container" style="display: none;">
+        <div class="main-content" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); min-height: 100vh;">
+            <div class="login-container" style="background: white; padding: 3rem; border-radius: var(--radius); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); width: 90%; max-width: 400px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-ticket-alt" style="font-size: 1.5rem; color: white;"></i>
+                        </div>
+                    </div>
+                    <h1 style="font-size: 1.75rem; color: var(--dark); margin-bottom: 0.5rem;">TH77 Prime</h1>
+                    <p style="color: var(--gray);">ระบบจัดการเครดิตหวยออนไลน์</p>
+                </div>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">ชื่อผู้ใช้</label>
+                        <div style="position: relative;">
+                            <i class="fas fa-user" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gray);"></i>
+                            <input type="text" id="username" placeholder="กรอกชื่อผู้ใช้" required style="padding-left: 2.5rem;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">รหัสผ่าน</label>
+                        <div style="position: relative;">
+                            <i class="fas fa-lock" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gray);"></i>
+                            <input type="password" id="password" placeholder="กรอกรหัสผ่าน" required style="padding-left: 2.5rem;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="text-align: right;">
+                        <a href="#" style="color: var(--primary); font-size: 0.875rem; text-decoration: none;">ลืมรหัสผ่าน?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem; font-size: 1rem;">
+                        <i class="fas fa-sign-in-alt" style="margin-right: 0.5rem;"></i>
+                        เข้าสู่ระบบ
+                    </button>
+                </form>
+                
+                <div style="margin-top: 2rem; text-align: center; color: var(--gray); font-size: 0.875rem;">
+                    © 2026 PSAI Studio. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Main App ===== -->
+    <div id="main-app" class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-ticket-alt" style="color: var(--primary); font-size: 1.25rem;"></i>
+                    </div>
+                </div>
+                <h1>TH77 Prime</h1>
+                <p class="subtitle">Lottery Management System</p>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">เมนูหลัก</div>
+                    <div class="menu-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>รายงาน</span>
+                    </div>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">การคีย์โพย</div>
+                    <div class="menu-item">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>คีย์โพย</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-link"></i>
+                        <span>ลิงก์รับแทง</span>
+                        <span class="badge warning">3</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-list"></i>
+                        <span>รายการโพย</span>
+                    </div>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">การจัดการ</div>
+                    <div class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>จัดการผู้ใช้</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span>จัดการหวย</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>บริหารความเสี่ยง</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>การเงิน</span>
+                    </div>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">ระบบ</div>
+                    <div class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>ตั้งค่าระบบ</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Audit Log</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="ค้นหา...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">5</span>
+                    </div>
+                    <div class="user-menu">
+                        <div class="avatar">น</div>
+                        <div class="user-info">
+                            <div class="user-name">นายสมปอง</div>
+                            <div class="user-role">เจ้ามือ</div>
+                        </div>
+                        <i class="fas fa-chevron-down" style="color: var(--gray); font-size: 0.75rem;"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard">
+                <!-- Alert Cards -->
+                <div class="alert-card danger fade-in">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="content">
+                        <h4>เครดิตเหลือน้อย!</h4>
+                        <p>เครดิตของคุณเหลือ 94,960 THB จากยอดรับสูงสุด 100,000 THB</p>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-primary" onclick="showCreditModal()">เติมเครดิต</button>
+                    </div>
+                </div>
+
+                <!-- Credit Display -->
+                <div class="credit-display fade-in">
+                    <div class="label">ยอดเครดิตปัจจุบัน</div>
+                    <div class="value">94,960 THB</div>
+                    <div class="limit">ยอดรับสูงสุด: 100,000 THB</div>
+                    <div class="progress">
+                        <div class="bar"></div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid fade-in">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="icon primary">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value">5,040</div>
+                        <div class="stat-card-label">ยอดโพยวันนี้ (THB)</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="icon secondary">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value">25</div>
+                        <div class="stat-card-label">รายการโพยที่ยืนยัน</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="icon warning">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value">3</div>
+                        <div class="stat-card-label">รายการรออนุมัติ</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="icon danger">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value">1</div>
+                        <div class="stat-card-label">เจ้ามือเครดิตหมด</div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="section-header fade-in">
+                    <h2>Quick Actions</h2>
+                </div>
+                <div class="stats-grid" style="margin-bottom: 2rem;">
+                    <button class="btn btn-primary" style="height: 100%; font-size: 1rem;" onclick="showBetForm()">
+                        <i class="fas fa-plus" style="margin-right: 0.5rem;"></i>
+                        คีย์โพยใหม่
+                    </button>
+                    <button class="btn btn-secondary" style="height: 100%; font-size: 1rem;" onclick="showLinkForm()">
+                        <i class="fas fa-link" style="margin-right: 0.5rem;"></i>
+                        สร้างลิงก์รับแทง
+                    </button>
+                    <button class="btn btn-secondary" style="height: 100%; font-size: 1rem;">
+                        <i class="fas fa-chart-pie" style="margin-right: 0.5rem;"></i>
+                        ดูรายงาน
+                    </button>
+                    <button class="btn btn-secondary" style="height: 100%; font-size: 1rem;">
+                        <i class="fas fa-cog" style="margin-right: 0.5rem;"></i>
+                        ตั้งค่าระบบ
+                    </button>
+                </div>
+
+                <!-- Recent Bets -->
+                <div class="section-header fade-in">
+                    <h2>รายการโพยล่าสุด</h2>
+                    <button class="btn" onclick="showBetForm()">
+                        <i class="fas fa-plus"></i>
+                        คีย์โพย
+                    </button>
+                </div>
+                <div class="table-container fade-in">
+                    <div class="table-header">
+                        <h3>โพยล่าสุด</h3>
+                        <div class="table-controls">
+                            <input type="text" placeholder="ค้นหา...">
+                            <select>
+                                <option>ทั้งหมด</option>
+                                <option>ยืนยันแล้ว</option>
+                                <option>รออนุมัติ</option>
+                                <option>ยกเลิก</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>เลข</th>
+                                <th>ประเภท</th>
+                                <th>ยอด</th>
+                                <th>สถานะ</th>
+                                <th>วันที่</th>
+                                <th>กระทำ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>824</td>
+                                <td>3D</td>
+                                <td>5,040 THB</td>
+                                <td><span class="status-badge confirmed">ยืนยันแล้ว</span></td>
+                                <td>10 ก.ค. 2566, 14:30</td>
+                                <td>
+                                    <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">ดูรายละเอียด</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>123</td>
+                                <td>3D</td>
+                                <td>1,000 THB</td>
+                                <td><span class="status-badge pending">รออนุมัติ</span></td>
+                                <td>10 ก.ค. 2566, 14:25</td>
+                                <td>
+                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">อนุมัติ</button>
+                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">ปฏิเสธ</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>456</td>
+                                <td>2D</td>
+                                <td>500 THB</td>
+                                <td><span class="status-badge confirmed">ยืนยันแล้ว</span></td>
+                                <td>10 ก.ค. 2566, 14:20</td>
+                                <td>
+                                    <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">ดูรายละเอียด</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>789</td>
+                                <td>3D</td>
+                                <td>2,000 THB</td>
+                                <td><span class="status-badge cancelled">ยกเลิก</span></td>
+                                <td>10 ก.ค. 2566, 14:15</td>
+                                <td>
+                                    <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">ดูรายละเอียด</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Charts Placeholder -->
+                <div class="stats-grid" style="margin-top: 2rem;">
+                    <div class="chart-placeholder fade-in">
+                        <i class="fas fa-chart-bar"></i>
+                        <p>กราฟยอดโพยประจำวัน</p>
+                    </div>
+                    <div class="chart-placeholder fade-in">
+                        <i class="fas fa-chart-pie"></i>
+                        <p>สัดส่วนประเภทหวย</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bet Form Modal -->
+    <div id="bet-modal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>คีย์โพย</h3>
+                <button class="modal-close" onclick="closeBetModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>โหมดการคีย์</label>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                        <button class="btn btn-primary" onclick="switchBetMode('quick')" id="quick-mode-btn">โหมดคีย์ด่วน</button>
+                        <button class="btn btn-secondary" onclick="switchBetMode('manual')" id="manual-mode-btn">โหมดกดเลือกเลข</button>
+                    </div>
+                </div>
+                
+                <div id="quick-key-section">
+                    <div class="form-group">
+                        <label>คีย์โพย (ตัวอย่าง: 824 5040x1, 123 100x2)</label>
+                        <textarea class="quick-key-input" placeholder="กรอกเลข โพย เช่น 824 5040x1, 123 100x2"></textarea>
+                        <p class="quick-key-hint">รูปแบบ: [เลข] [ยอด]x[จำนวน] คั้นโดยเครื่องหมาย ,</p>
+                    </div>
+                </div>
+                
+                <div id="manual-key-section" style="display: none;">
+                    <div class="form-group">
+                        <label>ประเภท</label>
+                        <select>
+                            <option value="3d">3 ตัว (3D)</option>
+                            <option value="2d">2 ตัว (2D)</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>เลข</label>
+                            <input type="text" placeholder="ตัวอย่าง: 824">
+                        </div>
+                        <div class="form-group">
+                            <label>ยอด (THB)</label>
+                            <input type="number" placeholder="ตัวอย่าง: 5040">
+                        </div>
+                        <div class="form-group">
+                            <label>จำนวน</label>
+                            <input type="number" placeholder="1" value="1">
+                        </div>
+                    </div>
+                    <div id="manual-bets-list" class="bet-list"></div>
+                    <button class="btn btn-secondary" onclick="addManualBet()">+ เพิ่มโพย</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeBetModal()">ยกเลิก</button>
+                <button class="btn btn-primary" onclick="submitBet()">บันทึกโพย</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link Form Modal -->
+    <div id="link-modal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>สร้างลิงก์รับแทง</h3>
+                <button class="modal-close" onclick="closeLinkModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>ชื่อลูกค้า</label>
+                    <input type="text" placeholder="ตัวอย่าง: นายสมชาย">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>อายุลิงก์</label>
+                        <select>
+                            <option value="15">15 นาที</option>
+                            <option value="60">1 ชั่วโมง</option>
+                            <option value="1440">1 วัน</option>
+                            <option value="4320">3 วัน</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>จำนวนครั้งในการใช้งาน</label>
+                        <select>
+                            <option value="1">1 ครั้ง</option>
+                            <option value="5">5 ครั้ง</option>
+                            <option value="10">10 ครั้ง</option>
+                            <option value="0">ไม่จำกัด</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>รอบหวย</label>
+                    <select>
+                        <option>หวยรัฐบาล รอบที่ 123456 (ปิดรับ: 16 ก.ค. 2566, 12:00)</option>
+                        <option>หวยลาว รอบที่ 789012 (ปิดรับ: 17 ก.ค. 2566, 10:00)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeLinkModal()">ยกเลิก</button>
+                <button class="btn btn-primary" onclick="generateLink()">สร้างลิงก์</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Credit Modal -->
+    <div id="credit-modal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>เติมเครดิต</h3>
+                <button class="modal-close" onclick="closeCreditModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>จำนวนเงิน (THB)</label>
+                    <input type="number" placeholder="ตัวอย่าง: 50000" value="50000">
+                </div>
+                <div class="form-group">
+                    <label>เหตุผล</label>
+                    <textarea placeholder="ตัวอย่าง: เติมเครดิตให้เจ้ามือ" rows="3"></textarea>
+                </div>
+                <div style="background: var(--light); padding: 1rem; border-radius: var(--radius); margin-top: 1rem;">
+                    <p style="margin-bottom: 0.5rem;"><strong>เครดิตปัจจุบัน:</strong> 94,960 THB</p>
+                    <p style="margin-bottom: 0.5rem;"><strong>ยอดรับสูงสุด:</strong> 100,000 THB</p>
+                    <p><strong>เครดิตใหม่หลังเติม:</strong> <span id="new-credit" style="color: var(--primary); font-weight: 600;">144,960 THB</span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeCreditModal()">ยกเลิก</button>
+                <button class="btn btn-primary" onclick="confirmCredit()">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User List Page (Admin View) -->
+    <div id="user-list-page" style="display: none;">
+        <div class="dashboard">
+            <div class="section-header">
+                <h2>จัดการผู้ใช้งาน</h2>
+                <button class="btn btn-primary">+ เพิ่มผู้ใช้</button>
+            </div>
+            
+            <div class="alert-card danger fade-in">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div class="content">
+                    <h4>เครดิตหมด!</h4>
+                    <p>เจ้ามือ นายสมชาย มีเครดิตเหลือ 0 THB กรุณาเติมเครดิต</p>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary">เติมเครดิต</button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>รายชื่อผู้ใช้งาน</h3>
+                    <div class="table-controls">
+                        <input type="text" placeholder="ค้นหา...">
+                        <select>
+                            <option>ทั้งหมด</option>
+                            <option>Admin</option>
+                            <option>เจ้ามือ</option>
+                            <option>เอเย่นต์</option>
+                            <option>สมาชิก</option>
+                        </select>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ชื่อผู้ใช้</th>
+                            <th>บทบาท</th>
+                            <th>เครดิต</th>
+                            <th>ยอดรับสูงสุด</th>
+                            <th>สถานะ</th>
+                            <th>กระทำ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>admin</td>
+                            <td><span class="status-badge" style="background: rgba(30, 58, 138, 0.1); color: var(--primary);">Admin</span></td>
+                            <td>1,000,000 THB</td>
+                            <td>1,000,000 THB</td>
+                            <td><span class="status-badge confirmed">ปกติ</span></td>
+                            <td>
+                                <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">แก้ไข</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>นายสมปอง</td>
+                            <td><span class="status-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--secondary);">เจ้ามือ</span></td>
+                            <td>94,960 THB</td>
+                            <td>100,000 THB</td>
+                            <td><span class="status-badge confirmed">ปกติ</span></td>
+                            <td>
+                                <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">แก้ไข</button>
+                                <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">เติมเครดิต</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>นายสมชาย</td>
+                            <td><span class="status-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--secondary);">เจ้ามือ</span></td>
+                            <td>0 THB</td>
+                            <td>100,000 THB</td>
+                            <td><span class="status-badge blocked">🚫 บล็อก</span></td>
+                            <td>
+                                <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">แก้ไข</button>
+                                <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">เติมเครดิต</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>agent001</td>
+                            <td><span class="status-badge" style="background: rgba(30, 58, 138, 0.1); color: var(--primary);">เอเย่นต์</span></td>
+                            <td>50,000 THB</td>
+                            <td>100,000 THB</td>
+                            <td><span class="status-badge confirmed">ปกติ</span></td>
+                            <td>
+                                <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">แก้ไข</button>
+                                <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">เติมเครดิต</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link Betting Page (Public View) -->
+    <div id="link-betting-page" style="display: none;">
+        <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+            <div style="background: white; border-radius: var(--radius); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); width: 90%; max-width: 600px; padding: 2rem;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                        <i class="fas fa-ticket-alt" style="font-size: 2rem; color: white;"></i>
+                    </div>
+                    <h1 style="font-size: 1.5rem; color: var(--dark); margin-bottom: 0.5rem;">TH77 Prime</h1>
+                    <p style="color: var(--gray);">ระบบรับแทงหวย</p>
+                </div>
+                
+                <div style="background: var(--light); padding: 1rem; border-radius: var(--radius); margin-bottom: 1.5rem;">
+                    <p style="margin-bottom: 0.5rem;"><strong>ลิงก์สำหรับ:</strong> นายสมชาย</p>
+                    <p style="margin-bottom: 0.5rem;"><strong>รอบหวย:</strong> หวยรัฐบาล รอบที่ 123456</p>
+                    <p><strong>เวลาปิดรับ:</strong> 16 ก.ค. 2566, 12:00 น.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>โหมดการคีย์</label>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                        <button class="btn btn-primary" onclick="switchPublicBetMode('quick')" id="public-quick-btn">โหมดคีย์ด่วน</button>
+                        <button class="btn btn-secondary" onclick="switchPublicBetMode('manual')" id="public-manual-btn">โหมดกดเลือกเลข</button>
+                    </div>
+                </div>
+                
+                <div id="public-quick-section">
+                    <div class="form-group">
+                        <label>คีย์โพย (ตัวอย่าง: 824 5040x1, 123 100x2)</label>
+                        <textarea class="quick-key-input" placeholder="กรอกเลข โพย เช่น 824 5040x1, 123 100x2"></textarea>
+                        <p class="quick-key-hint">รูปแบบ: [เลข] [ยอด]x[จำนวน] คั้นโดยเครื่องหมาย ,</p>
+                    </div>
+                </div>
+                
+                <div id="public-manual-section" style="display: none;">
+                    <div class="form-group">
+                        <label>ประเภท</label>
+                        <select>
+                            <option value="3d">3 ตัว (3D)</option>
+                            <option value="2d">2 ตัว (2D)</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>เลข</label>
+                            <input type="text" placeholder="ตัวอย่าง: 824">
+                        </div>
+                        <div class="form-group">
+                            <label>ยอด (THB)</label>
+                            <input type="number" placeholder="ตัวอย่าง: 5040">
+                        </div>
+                        <div class="form-group">
+                            <label>จำนวน</label>
+                            <input type="number" placeholder="1" value="1">
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; padding: 0.75rem; font-size: 1rem; margin-top: 1rem;" onclick="submitPublicBet()">
+                    <i class="fas fa-paper-plane" style="margin-right: 0.5rem;"></i>
+                    ส่งโพย
+                </button>
+                
+                <div style="margin-top: 1.5rem; text-align: center; color: var(--gray); font-size: 0.875rem;">
+                    <p>โพยของคุณจะถูกส่งไปยังเจ้ามือเพื่ออนุมัติ</p>
+                    <p>คุณจะได้รับการแจ้งเตือนเมื่อโพยถูกอนุมัติ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Current page state
+        let currentPage = 'dashboard';
+        let currentUserRole = 'agent';
+        let betMode = 'quick';
+        let publicBetMode = 'quick';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show login page first
+            showPage('login');
+            
+            // Set up login form
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // Simple demo login
+                if (username && password) {
+                    // Determine user role based on username
+                    if (username === 'admin') {
+                        currentUserRole = 'admin';
+                    } else if (username === 'master') {
+                        currentUserRole = 'master';
+                    } else {
+                        currentUserRole = 'agent';
+                    }
+                    showPage('main');
+                }
+            });
+            
+            // Set up menu toggle
+            document.querySelector('.menu-toggle').addEventListener('click', function() {
+                document.querySelector('.sidebar').classList.toggle('open');
+            });
+        });
+
+        // Page navigation
+        function showPage(page) {
+            // Hide all pages
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('user-list-page').style.display = 'none';
+            document.getElementById('link-betting-page').style.display = 'none';
+            
+            // Show selected page
+            if (page === 'login') {
+                document.getElementById('login-page').style.display = 'block';
+            } else if (page === 'main') {
+                document.getElementById('main-app').style.display = 'flex';
+                currentPage = 'dashboard';
+                showDashboard();
+            } else if (page === 'user-list') {
+                document.getElementById('user-list-page').style.display = 'block';
+                currentPage = 'user-list';
+            } else if (page === 'link-betting') {
+                document.getElementById('link-betting-page').style.display = 'block';
+                currentPage = 'link-betting';
+            }
+        }
+
+        // Show dashboard based on user role
+        function showDashboard() {
+            // Hide all content first
+            const contents = document.querySelectorAll('.dashboard > *');
+            contents.forEach(content => {
+                if (!content.classList.contains('section-header') && 
+                    !content.classList.contains('stats-grid') &&
+                    !content.classList.contains('table-container')) {
+                    content.style.display = 'none';
+                }
+            });
+            
+            // Show appropriate dashboard
+            if (currentUserRole === 'admin') {
+                // Admin dashboard
+                document.querySelector('.dashboard-header h1').textContent = 'Admin Dashboard';
+                document.querySelector('.dashboard-header p').textContent = 'จัดการระบบและผู้ใช้งาน';
+                
+                // Update stats
+                document.querySelectorAll('.stat-card-value')[0].textContent = '500,000';
+                document.querySelectorAll('.stat-card-label')[0].textContent = 'ยอดโพยวันนี้ (THB)';
+                document.querySelectorAll('.stat-card-value')[1].textContent = '100,000';
+                document.querySelectorAll('.stat-card-label')[1].textContent = 'ยอดจ่ายรางวัลวันนี้ (THB)';
+                document.querySelectorAll('.stat-card-value')[2].textContent = '15';
+                document.querySelectorAll('.stat-card-label')[2].textContent = 'จำนวนเจ้ามือ';
+                document.querySelectorAll('.stat-card-value')[3].textContent = '2';
+                document.querySelectorAll('.stat-card-label')[3].textContent = 'เจ้ามือเครดิตหมด';
+                
+                // Update alert
+                const alertCard = document.querySelector('.alert-card');
+                alertCard.classList.remove('danger');
+                alertCard.classList.add('danger');
+                alertCard.querySelector('h4').textContent = 'เจ้ามือเครดิตหมด!';
+                alertCard.querySelector('p').textContent = 'มีเจ้ามือ 2 คนที่เครดิตหมด กรุณาเติมเครดิต';
+                
+            } else if (currentUserRole === 'master') {
+                // Master dashboard
+                document.querySelector('.dashboard-header h1').textContent = 'Master Dashboard';
+                document.querySelector('.dashboard-header p').textContent = 'จัดการเอเย่นต์และความเสี่ยง';
+                
+            } else {
+                // Agent dashboard
+                document.querySelector('.dashboard-header h1').textContent = 'Agent Dashboard';
+                document.querySelector('.dashboard-header p').textContent = 'คีย์โพยและจัดการลูกค้า';
+            }
+            
+            // Show all elements with fade-in
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    el.style.display = 'block';
+                });
+            }, 100);
+        }
+
+        // Bet Form Functions
+        function showBetForm() {
+            document.getElementById('bet-modal').style.display = 'flex';
+        }
+
+        function closeBetModal() {
+            document.getElementById('bet-modal').style.display = 'none';
+        }
+
+        function switchBetMode(mode) {
+            betMode = mode;
+            
+            if (mode === 'quick') {
+                document.getElementById('quick-key-section').style.display = 'block';
+                document.getElementById('manual-key-section').style.display = 'none';
+                document.getElementById('quick-mode-btn').classList.add('btn-primary');
+                document.getElementById('quick-mode-btn').classList.remove('btn-secondary');
+                document.getElementById('manual-mode-btn').classList.add('btn-secondary');
+                document.getElementById('manual-mode-btn').classList.remove('btn-primary');
+            } else {
+                document.getElementById('quick-key-section').style.display = 'none';
+                document.getElementById('manual-key-section').style.display = 'block';
+                document.getElementById('quick-mode-btn').classList.add('btn-secondary');
+                document.getElementById('quick-mode-btn').classList.remove('btn-primary');
+                document.getElementById('manual-mode-btn').classList.add('btn-primary');
+                document.getElementById('manual-mode-btn').classList.remove('btn-secondary');
+            }
+        }
+
+        function addManualBet() {
+            const list = document.getElementById('manual-bets-list');
+            const betItem = document.createElement('div');
+            betItem.className = 'bet-item';
+            betItem.innerHTML = `
+                <div class="number">123</div>
+                <div class="type">3D</div>
+                <div class="amount">1,000 THB</div>
+                <div class="actions">
+                    <button onclick="this.parentElement.parentElement.remove()">✕</button>
+                </div>
+            `;
+            list.appendChild(betItem);
+        }
+
+        function submitBet() {
+            alert('บันทึกโพยสำเร็จ!');
+            closeBetModal();
+        }
+
+        // Link Form Functions
+        function showLinkForm() {
+            document.getElementById('link-modal').style.display = 'flex';
+        }
+
+        function closeLinkModal() {
+            document.getElementById('link-modal').style.display = 'none';
+        }
+
+        function generateLink() {
+            const token = 'abc' + Math.random().toString(36).substr(2, 6);
+            alert(`ลิงก์รับแทงถูกสร้างขึ้นแล้ว: https://th77prime.com/bet/${token}`);
+            closeLinkModal();
+        }
+
+        // Credit Modal Functions
+        function showCreditModal() {
+            document.getElementById('credit-modal').style.display = 'flex';
+        }
+
+        function closeCreditModal() {
+            document.getElementById('credit-modal').style.display = 'none';
+        }
+
+        function confirmCredit() {
+            alert('เติมเครดิตสำเร็จ!');
+            closeCreditModal();
+        }
+
+        // Public Bet Form Functions
+        function switchPublicBetMode(mode) {
+            publicBetMode = mode;
+            
+            if (mode === 'quick') {
+                document.getElementById('public-quick-section').style.display = 'block';
+                document.getElementById('public-manual-section').style.display = 'none';
+                document.getElementById('public-quick-btn').classList.add('btn-primary');
+                document.getElementById('public-quick-btn').classList.remove('btn-secondary');
+                document.getElementById('public-manual-btn').classList.add('btn-secondary');
+                document.getElementById('public-manual-btn').classList.remove('btn-primary');
+            } else {
+                document.getElementById('public-quick-section').style.display = 'none';
+                document.getElementById('public-manual-section').style.display = 'block';
+                document.getElementById('public-quick-btn').classList.add('btn-secondary');
+                document.getElementById('public-quick-btn').classList.remove('btn-primary');
+                document.getElementById('public-manual-btn').classList.add('btn-primary');
+                document.getElementById('public-manual-btn').classList.remove('btn-secondary');
+            }
+        }
+
+        function submitPublicBet() {
+            alert('โพยของคุณถูกส่งไปยังเจ้ามือเพื่ออนุมัติแล้ว!');
+        }
+
+        // Update credit calculation
+        document.addEventListener('input', function(e) {
+            if (e.target.type === 'number' && e.target.parentElement.parentElement.id === 'credit-modal') {
+                const amount = parseInt(e.target.value) || 0;
+                const currentCredit = 94960;
+                const newCredit = currentCredit + amount;
+                document.getElementById('new-credit').textContent = newCredit.toLocaleString() + ' THB';
+            }
+        });
+
+        // Menu navigation
+        function navigateTo(page) {
+            if (page === 'user-management' && currentUserRole === 'admin') {
+                showPage('user-list');
+            } else if (page === 'dashboard') {
+                showPage('main');
+            }
+        }
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
