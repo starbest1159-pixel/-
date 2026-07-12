@@ -1,4 +1,4 @@
-import { bettingApi, lotteryApi } from './api';
+import { bettingApi } from './api';
 import { Bet, BetValidationResponse } from '../types';
 
 // ============================================
